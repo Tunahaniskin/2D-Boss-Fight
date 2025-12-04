@@ -1,0 +1,17 @@
+# Unity'nin büyük ve gereksiz dosyalarını hariç tutar
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/Assets/AssetStoreTools/
+/UserSettings/
+
+# Otomatik oluşturulan ve kişisel ayarları içeren dosyalar
+*.csproj
+*.unityproj
+*.sln
+.vs/
+
+# Mac OS/Linux sistem dosyaları
+.DS_Store
