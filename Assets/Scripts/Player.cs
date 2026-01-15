@@ -16,8 +16,8 @@ public class Player : MonoBehaviour
     private float CanDashTime = 0f;
     private float DashWaitTime = 2f;
 
-    [SerializeField] private int PlayerHealth = 20;
-    [SerializeField] private GameObject AttackArea;
+    [SerializeField] private int PlayerHealth = 100;
+    [SerializeField] private BoxCollider2D AttackArea;
     private float AttackStartDuration = 1.1f;
     private float AttackCanDamageDuration = 0.3f;
     private bool isAttacking = false;
@@ -32,17 +32,12 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         HandleMovementInput();
         handleJumpInput();
         HandleJumpFallAnimation();
         HandleAttackInput();
-        
-    }
-    
-    void FixedUpdate()
-    {
         
     }
 
@@ -142,13 +137,13 @@ public class Player : MonoBehaviour
         isAttacking = true;
         animator.SetTrigger("Attack");
         yield return new WaitForSeconds(AttackCanDamageDuration); //Animasyonel ayarlama
-        AttackArea.SetActive(true);    
+        AttackArea.enabled = true;    
         yield return new WaitForSeconds(AttackStartDuration - AttackCanDamageDuration);
-        AttackArea.SetActive(false);
+        AttackArea.enabled = false;
         isAttacking = false;
     }   
 
-    private void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         PlayerHealth -= damage;
 
