@@ -51,14 +51,14 @@ Oyun **WebGL** formatında derlenmiştir. İndirme yapmadan doğrudan tarayıcı
 
 Projede **Reinforcement Learning (Pekiştirmeli Öğrenme)** yöntemlerinden biri olan **Q-Learning** kullanılmıştır. Ajan (Düşman), ortamdan aldığı geri bildirimlere (Ödül/Ceza) göre `Q-Table` üzerindeki değerleri günceller.
 
-### 🔄 Karar Mekanizması (Akış Şeması)
 
-```mermaid
-graph LR
-    A[Durum Analizi<br/>(State)] --> B{Q-Table<br/>Kontrolü}
-    B -->|Epsilon %10| C[Rastgele Aksiyon]
-    B -->|Maksimum Q| D[En İyi Aksiyon]
-    C --> E[Aksiyonu Uygula]
-    D --> E
-    E --> F[Ödül/Ceza Hesaplanması]
-    F --> G[Q-Table Güncelle]
+
+### 🎯 Ödül ve Ceza Sistemi (Reward Function)
+
++ [BAŞARILI]  Oyuncuya kılıç ile hasar verirse (+2.0 Puan)
++ [NAVİGASYON] Uzaktayken oyuncuya doğru yürürse (+0.1 Puan)
++ [STRATEJİ]  Platform farkı varken doğru yerde zıplarsa (+0.5 Puan)
+
+- [HATA]      Saldırıyı ıskalarsa (Boşa vurursa) (-0.5 Puan)
+- [HATA]      Ters yöne (arkasına) saldırırsa (-0.5 Puan)
+- [PASİF]     Saldırı menzilindeyken boş boş yürürse (-0.2 Puan)
