@@ -54,6 +54,9 @@ public class Enemy_sc : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+
+        if (GameUIManager.Instance != null) 
+            GameUIManager.Instance.UpdateEnemyHealth(EnemyHealth, 20); // 20 maks can
         
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if (p != null) playerTransform = p.transform;
@@ -332,6 +335,9 @@ public class Enemy_sc : MonoBehaviour
     {
         EnemyHealth -= damage;
 
+        if (GameUIManager.Instance != null) 
+            GameUIManager.Instance.UpdateEnemyHealth(EnemyHealth, 20);
+
         if(isTraining && currentState != null)
         {
              brain.Learn(currentState, currentAction, -1.0f, GetState());
@@ -348,7 +354,12 @@ public class Enemy_sc : MonoBehaviour
         animator.SetBool("Die", true);
         GetComponent<Collider2D>().enabled = false;
         this.enabled = false;
-        Destroy(gameObject, 2f);
+        rb.linearVelocity = Vector2.zero;
+
+        if (GameUIManager.Instance != null)
+            GameUIManager.Instance.GameFinished("KAZANDIN!");
+
+        Destroy(gameObject, 2.5f); 
     }
 
     public void PlayerHasarAldi()

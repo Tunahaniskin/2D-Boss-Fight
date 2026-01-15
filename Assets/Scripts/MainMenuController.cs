@@ -1,3 +1,5 @@
+using UnityEngine.Networking; // İNTERNETTEN DOSYA ÇEKMEK İÇİN GEREKLİ
+using System.Collections; // COROUTINE İÇİN GEREKLİ
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -67,31 +69,49 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
+
     public void LoadAIData()
+    {
+
+        StartCoroutine(LoadAIDataRoutine());
+    }
+
+    IEnumerator LoadAIDataRoutine()
     {
         string path = Path.Combine(Application.streamingAssetsPath, "enemy_weights.json");
 
-        if (File.Exists(path))
-        {
-            
-            string jsonContent = File.ReadAllText(path);
-            Enemy_sc.loadedBrainData = jsonContent;
-            Enemy_sc.usePreTrainedAI = true; 
+        Debug.Log("Dosya aranıyor: " + path); 
 
-            Debug.Log("AI Dosyası Yüklendi!");
-            if (aiInfoText != null) 
-            {
-                aiInfoText.text = "AI Yüklendi! (Akıllı Mod)";
-                aiInfoText.color = Color.green;
-            }
-        }
-        else
+        using (UnityWebRequest www = UnityWebRequest.Get(path))
         {
-            Debug.LogError("Dosya Bulunamadı!");
-            if (aiInfoText != null) 
+
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
             {
-                aiInfoText.text = "Dosya Yok!";
-                aiInfoText.color = Color.red;
+
+                Debug.LogError("Hata Oluştu: " + www.error);
+                if (aiInfoText != null) 
+                {
+                    aiInfoText.text = "Dosya Bulunamadı!";
+                    aiInfoText.color = Color.red;
+                }
+            }
+            else
+            {
+
+                string jsonContent = www.downloadHandler.text;
+
+                Enemy_sc.loadedBrainData = jsonContent;
+                Enemy_sc.usePreTrainedAI = true;
+
+                Debug.Log("Başarılı! İçerik: " + jsonContent); 
+                
+                if (aiInfoText != null) 
+                {
+                    aiInfoText.text = "AI Yüklendi! (WebGL)";
+                    aiInfoText.color = Color.green;
+                }
             }
         }
     }

@@ -29,6 +29,11 @@ public class Player : MonoBehaviour
        rb = GetComponent<Rigidbody2D>();
        animator = GetComponent<Animator>();
 
+       if (GameUIManager.Instance != null)
+       {
+           GameUIManager.Instance.UpdatePlayerHealth(PlayerHealth, 30); 
+       }
+
     }
 
     // Update is called once per frame
@@ -147,6 +152,11 @@ public class Player : MonoBehaviour
     {
         PlayerHealth -= damage;
 
+        if (GameUIManager.Instance != null)
+        {
+            GameUIManager.Instance.UpdatePlayerHealth(PlayerHealth, 30);
+        }
+
         animator.SetTrigger("Hurt");
         
         if (PlayerHealth <= 0)
@@ -157,9 +167,14 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        //TODO: canvastan oyunu bitir
         animator.SetBool("Death", true);
+        
+        this.enabled = false; 
+        GetComponent<Collider2D>().enabled = false; 
+        rb.linearVelocity = Vector2.zero; 
 
+        if (GameUIManager.Instance != null)
+            GameUIManager.Instance.GameFinished("KAYBETTİN!");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
