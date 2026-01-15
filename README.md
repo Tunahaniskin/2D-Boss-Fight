@@ -20,5 +20,4 @@
 * | **Zıplama** | **Boşluk (Space)** veya **W** |
 * | **Yakın Dövüş Saldırısı** | **Fare Sol Tık** (Mouse Left Click) |
 * | **Dash** | **Sol Shift** |
-* | **Menüye Dönüş** | **O** tuşu | Oyun sahnesinden Ana Menü'ye hızlıca döner. |
 
